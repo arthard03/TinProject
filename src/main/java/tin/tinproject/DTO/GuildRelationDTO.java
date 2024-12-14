@@ -1,30 +1,13 @@
-package tin.tinproject.Model;
-
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.Size;
+package tin.tinproject.DTO;
 
 import java.util.List;
 
-@Entity
-@Table(name = "Guild")
-public class Guild {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class GuildRelationDTO {
     private Long guildID;
-    @Column(nullable = false)
-    @Size(min = 10,max = 30)
     private String name;
-    @Column(nullable = false)
-    @Size(min = 10,max = 150)
     private String description;
-    @Digits(integer = 10,fraction = 0)
     private Integer members;
-
-    @OneToMany(mappedBy = "guild",cascade = CascadeType.REMOVE,fetch = FetchType.EAGER, orphanRemoval = true)
-    private List<Bounty> bounties;
-
+    private List<BountyDTO> bounty;
 
     public Long getGuildID() {
         return guildID;
@@ -58,11 +41,11 @@ public class Guild {
         this.members = members;
     }
 
-    public List<Bounty> getBounties() {
-        return bounties;
+    public List<BountyDTO> getBounty() {
+        return bounty;
     }
 
-    public void setBounties(List<Bounty> bounties) {
-        this.bounties = bounties;
+    public void setBounty(List<BountyDTO> bounty) {
+        this.bounty = bounty;
     }
 }

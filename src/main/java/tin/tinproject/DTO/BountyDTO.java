@@ -7,6 +7,15 @@ public class BountyDTO {
     private Double reward;
     private Integer status;
     private String difficulty;
+    private Long guildID;
+
+    public Long getGuildID() {
+        return guildID;
+    }
+
+    public void setGuildID(Long guildID) {
+        this.guildID = guildID;
+    }
 
     public Long getBountyID() {
         return bountyID;

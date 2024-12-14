@@ -1,0 +1,50 @@
+package tin.tinproject.Controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import tin.tinproject.DTO.GuildDTO;
+import tin.tinproject.DTO.GuildRelationDTO;
+import tin.tinproject.Service.GuildService;
+
+import java.util.List;
+
+@Controller
+@RequestMapping("/guilds")
+public class GuildController {
+    private  final GuildService guildService;
+@Autowired
+    public GuildController(GuildService guildService) {
+        this.guildService = guildService;
+    };
+ @GetMapping
+    public ResponseEntity<List<GuildDTO>> getAllGuilds(){
+        List<GuildDTO> guilds =guildService.getAllGuilds();
+        return  new ResponseEntity<>(guilds, HttpStatus.OK);
+
+    };
+    @GetMapping("/relations")
+    public ResponseEntity<List<GuildRelationDTO>> getAllGuildsRelations(){
+        List<GuildRelationDTO> guilds =guildService.getAllRelations();
+        return  new ResponseEntity<>(guilds, HttpStatus.OK);
+
+    };
+
+    @PostMapping
+    public  ResponseEntity<GuildDTO> addGuild(@RequestBody GuildDTO guildDTO){
+    GuildDTO saveGuild = guildService.addGuild(guildDTO);
+    return  new ResponseEntity<>(saveGuild,HttpStatus.OK);
+    };
+    @PutMapping("/{id}")
+    public  ResponseEntity<GuildDTO> editGuild(@PathVariable Long id,@RequestBody GuildDTO guildDTO){
+GuildDTO updateGuild=guildService.editGuild(id,guildDTO);
+return new  ResponseEntity<>(updateGuild,HttpStatus.OK);
+    };
+    @DeleteMapping("/{id}")
+    public  ResponseEntity<Void> removeGuild(@PathVariable Long id){
+        guildService.removeGuild(id);
+        return  ResponseEntity.noContent().build();
+    };
+}

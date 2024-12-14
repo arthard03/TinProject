@@ -1,6 +1,7 @@
 package tin.tinproject.Model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 
 import java.util.Date;
 
@@ -11,9 +12,11 @@ public class BountyClaim {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long claimID;
-
+    @Column(nullable = false)
+    @Size(min = 10,max = 150)
     private Date claimDate;
-
+    @Column(nullable = false)
+    @Size(min = 10,max = 150)
     private Date finishDate;
 
     @ManyToOne

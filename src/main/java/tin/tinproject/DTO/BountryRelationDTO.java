@@ -1,32 +1,15 @@
-package tin.tinproject.Model;
+package tin.tinproject.DTO;
 
-import jakarta.persistence.*;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.Size;
-import org.springframework.validation.annotation.Validated;
+import java.util.List;
 
-@Entity
-@Table(name = "Bounties")
-public class Bounty {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class BountryRelationDTO {
     private Long bountyID;
-@Column(nullable = false)
-@Size(min = 10,max = 150)
     private String description;
-@Digits(integer = 10,fraction = 0)
     private Double reward;
-    @Digits(integer = 1,fraction = 0)
     private Integer status;
-    @Column(nullable = false)
-    @Size(min = 4,max = 20)
     private String difficulty;
-
-    @ManyToOne
-    @JoinColumn(name = "Guild_guild_ID", nullable = false)
-    private Guild guild;
+    private List<BountyClaimDTO> bountyClaims;
+private  List<GuildDTO>guildDTOS;
 
     public Long getBountyID() {
         return bountyID;
@@ -68,11 +51,19 @@ public class Bounty {
         this.difficulty = difficulty;
     }
 
-    public Guild getGuild() {
-        return guild;
+    public List<BountyClaimDTO> getBountyClaims() {
+        return bountyClaims;
     }
 
-    public void setGuild(Guild guild) {
-        this.guild = guild;
+    public void setBountyClaims(List<BountyClaimDTO> bountyClaims) {
+        this.bountyClaims = bountyClaims;
+    }
+
+    public List<GuildDTO> getGuildDTOS() {
+        return guildDTOS;
+    }
+
+    public void setGuildDTOS(List<GuildDTO> guildDTOS) {
+        this.guildDTOS = guildDTOS;
     }
 }

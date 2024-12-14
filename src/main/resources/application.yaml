@@ -2,8 +2,9 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     show-sql: true
+    defer-datasource-initialization: true
   sql:
     init:
       data-locations: classpath:sql-file/*.sql
