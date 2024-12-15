@@ -1,30 +1,14 @@
 package tin.tinproject.DTO;
 
 import java.util.Date;
+import java.util.List;
 
-public class BountyClaimDTO {
-
+public class BountyClaimRelationDTO {
     private Long claimID;
     private Date claimDate;
     private Date finishDate;
-    private Long playerID;
-    private Long bountyID;
-
-    public Long getPlayerID() {
-        return playerID;
-    }
-
-    public void setPlayerID(Long playerID) {
-        this.playerID = playerID;
-    }
-
-    public Long getBountyID() {
-        return bountyID;
-    }
-
-    public void setBountyID(Long bountyID) {
-        this.bountyID = bountyID;
-    }
+    private List<BountyDTO> bountyDTOS;
+    private  List<PlayerDTO> playerDTOS;
 
     public Long getClaimID() {
         return claimID;
@@ -48,5 +32,21 @@ public class BountyClaimDTO {
 
     public void setFinishDate(Date finishDate) {
         this.finishDate = finishDate;
+    }
+
+    public List<BountyDTO> getBountyDTOS() {
+        return bountyDTOS;
+    }
+
+    public void setBountyDTOS(List<BountyDTO> bountyDTOS) {
+        this.bountyDTOS = bountyDTOS;
+    }
+
+    public List<PlayerDTO> getPlayerDTOS() {
+        return playerDTOS;
+    }
+
+    public void setPlayerDTOS(List<PlayerDTO> playerDTOS) {
+        this.playerDTOS = playerDTOS;
     }
 }

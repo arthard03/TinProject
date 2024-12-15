@@ -1,7 +1,9 @@
 package tin.tinproject.Model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Size;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -13,10 +15,10 @@ public class BountyClaim {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long claimID;
     @Column(nullable = false)
-    @Size(min = 10,max = 150)
+    @DateTimeFormat
     private Date claimDate;
     @Column(nullable = false)
-    @Size(min = 10,max = 150)
+    @DateTimeFormat
     private Date finishDate;
 
     @ManyToOne

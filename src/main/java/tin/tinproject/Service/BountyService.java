@@ -91,7 +91,6 @@ public class BountyService {
             } else {
                 throw new RuntimeException("Guild with ID " + guildId + " not found.");
             }
-        } else {
         }
         Bounty savedBounty = bountyRepository.save(bounty);
         bountyDTO.setBountyID(savedBounty.getBountyID());
