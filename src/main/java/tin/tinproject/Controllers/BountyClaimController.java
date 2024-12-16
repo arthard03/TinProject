@@ -3,6 +3,7 @@ package tin.tinproject.Controllers;
 import jakarta.servlet.http.PushBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import tin.tinproject.DTO.BountyClaimDTO;
@@ -19,14 +20,14 @@ public class BountyClaimController {
     public BountyClaimController(BountyClaimService bountyClaimService) {
         this.bountyClaimService = bountyClaimService;
     }
-    @GetMapping
+    @GetMapping("/getAll")
     public ResponseEntity<List<BountyClaimDTO>> getAllBountyClaim() {
         List<BountyClaimDTO> bountyClaimDTOS = bountyClaimService.getAllBountyClaim();
         return  new ResponseEntity<>(bountyClaimDTOS, HttpStatus.OK);
     }
-    @GetMapping("/relations")
-    public ResponseEntity<List<BountyClaimRelationDTO>> getAllBountyClaimRelations(){
-        List<BountyClaimRelationDTO>bountyClaimRelationDTOS=bountyClaimService.getAllBountyClaimRealations();
+    @GetMapping("/relations/{id}")
+    public ResponseEntity<BountyClaimRelationDTO> getAllBountyClaimRelations(@PathVariable Long id){
+        BountyClaimRelationDTO bountyClaimRelationDTOS=bountyClaimService.getAllBountyClaimRealations(id);
         return  new ResponseEntity<>(bountyClaimRelationDTOS,HttpStatus.OK);
     }
     @PostMapping

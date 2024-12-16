@@ -1,5 +1,6 @@
 package tin.tinproject.Service;
 
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import tin.tinproject.DTO.BountyClaimDTO;
 import tin.tinproject.DTO.PlayerDTO;
@@ -32,31 +33,29 @@ public class PlayerService {
                 })
                 .collect(Collectors.toList());
     }
-    public List<PlayerWithBountyClaimsDTO> getPlayersWithBountyClaims() {
-        return StreamSupport.stream(playerRepository.findAll().spliterator(), false)
-                .map(player -> {
-                    PlayerWithBountyClaimsDTO playerDTO = new PlayerWithBountyClaimsDTO();
-                    playerDTO.setId(player.getId());
-                    playerDTO.setName(player.getName());
-                    playerDTO.setClazz(player.getClazz());
-                    playerDTO.setSpeciality(player.getSpeciality());
-                    playerDTO.setPersuasionLevel(player.getPersuasionLevel());
+    public PlayerWithBountyClaimsDTO getPlayersWithBountyClaims(Long id) {
+        Player player = playerRepository.findById(id).orElse(null);
+        PlayerWithBountyClaimsDTO playerWithBountyClaimsDTO = new PlayerWithBountyClaimsDTO();
+        playerWithBountyClaimsDTO.setClazz(player.getClazz());
+        playerWithBountyClaimsDTO.setName(player.getName());
+        playerWithBountyClaimsDTO.setSpeciality(player.getSpeciality());
+        playerWithBountyClaimsDTO.setPersuasionLevel(player.getPersuasionLevel());
+        playerWithBountyClaimsDTO.setId(player.getId());
 
-                    List<BountyClaimDTO> bountyClaimDTOs = player.getBountyClaims().stream()
-                            .map(bountyClaim -> {
-                                BountyClaimDTO bountyClaimDTO = new BountyClaimDTO();
-                                bountyClaimDTO.setClaimID(bountyClaim.getClaimID());
-                                bountyClaimDTO.setClaimDate(bountyClaim.getClaimDate());
-                                bountyClaimDTO.setFinishDate(bountyClaim.getFinishDate());
-                                return bountyClaimDTO;
-                            })
-                            .collect(Collectors.toList());
+        List<BountyClaimDTO> bountyClaimDTOS = player.getBountyClaims().stream()
+                .map(bountyClaim -> {
+                    BountyClaimDTO bountyClaimDTO = new BountyClaimDTO();
+                    bountyClaimDTO.setBountyID(bountyClaim.getClaimID());
+                    bountyClaimDTO.setPlayerID(bountyClaim.getPlayer().getId());
+                    bountyClaimDTO.setClaimDate(bountyClaim.getClaimDate());
+                    bountyClaimDTO.setFinishDate(bountyClaim.getFinishDate());
+                    bountyClaimDTO.setClaimID(bountyClaim.getClaimID());
+                    return bountyClaimDTO;
+                }).collect(Collectors.toList());
+        playerWithBountyClaimsDTO.setBountyClaims(bountyClaimDTOS);
+        return playerWithBountyClaimsDTO;
 
-                    playerDTO.setBountyClaims(bountyClaimDTOs);
-                    return playerDTO;
-                })
-                .collect(Collectors.toList());
-    }
+    };
     public PlayerDTO addPlayer(PlayerDTO playerDTO) {
         Player player = new Player();
         player.setName(playerDTO.getName());

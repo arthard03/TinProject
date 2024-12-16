@@ -27,6 +27,14 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/guilds/getAll").permitAll()
+                        .requestMatchers("/guilds/relations/{id}").permitAll()
+                        .requestMatchers("/players/relations/{id}").permitAll()
+                        .requestMatchers("/players/getAll").permitAll()
+                        .requestMatchers("/bounties/relations/{id}").permitAll()
+                        .requestMatchers("/bounties/getAll").permitAll()
+                        .requestMatchers("/bountiesClaim/relations/{id}").permitAll()
+                        .requestMatchers("/bountiesClaim/getAll").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
@@ -46,4 +54,5 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
+
 }

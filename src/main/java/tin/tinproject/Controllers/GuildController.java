@@ -19,18 +19,23 @@ public class GuildController {
     public GuildController(GuildService guildService) {
         this.guildService = guildService;
     };
- @GetMapping
+ @GetMapping("/getAll")
     public ResponseEntity<List<GuildDTO>> getAllGuilds(){
         List<GuildDTO> guilds =guildService.getAllGuilds();
         return  new ResponseEntity<>(guilds, HttpStatus.OK);
 
     };
-    @GetMapping("/relations")
-    public ResponseEntity<List<GuildRelationDTO>> getAllGuildsRelations(){
-        List<GuildRelationDTO> guilds =guildService.getAllRelations();
-        return  new ResponseEntity<>(guilds, HttpStatus.OK);
+    @GetMapping("/relations/{id}")
+    public ResponseEntity<GuildRelationDTO> getGuildRelationsById(@PathVariable Long id) {
+        GuildRelationDTO guildRelationDTO = guildService.getRelations(id);
 
-    };
+        if (guildRelationDTO == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(guildRelationDTO, HttpStatus.OK);
+    }
+
 
     @PostMapping
     public  ResponseEntity<GuildDTO> addGuild(@RequestBody GuildDTO guildDTO){

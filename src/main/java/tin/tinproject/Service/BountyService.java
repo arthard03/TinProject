@@ -1,6 +1,7 @@
 package tin.tinproject.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import tin.tinproject.DTO.BountryRelationDTO;
 import tin.tinproject.DTO.BountyClaimDTO;
@@ -42,41 +43,41 @@ public class BountyService {
                     return bountyDTO;
                 }).collect(Collectors.toList());
     };
-    public List<BountryRelationDTO> getAllBountyRelations() {
-        return StreamSupport.stream(bountyRepository.findAll().spliterator(), false)
-                .map(bounty -> {
-                    BountryRelationDTO relationDTO = new BountryRelationDTO();
-                    relationDTO.setBountyID(bounty.getBountyID());
-                    relationDTO.setDescription(bounty.getDescription());
-                    relationDTO.setReward(bounty.getReward());
-                    relationDTO.setStatus(bounty.getStatus());
-                    relationDTO.setDifficulty(bounty.getDifficulty());
+    public BountryRelationDTO getAllBountyRelations(Long id) {
+        Bounty bounty=bountyRepository.findById(id).orElse(null);
+        BountryRelationDTO bountryRelationDTO =new BountryRelationDTO();
+        bountryRelationDTO.setBountyID(bounty.getBountyID());
+        bountryRelationDTO.setDescription(bounty.getDescription());
+        bountryRelationDTO.setDifficulty(bounty.getDifficulty());
+        bountryRelationDTO.setReward(bounty.getReward());
+        bountryRelationDTO.setStatus(bounty.getStatus());
 
-                    Optional<BountyClaim> bountyClaims = bountyClaimRepository.findById(bounty.getBountyID());
-                    relationDTO.setBountyClaims(bountyClaims.stream()
-                            .map(claim -> {
-                                BountyClaimDTO claimDTO = new BountyClaimDTO();
-                                claimDTO.setClaimID(claim.getClaimID());
-                                claimDTO.setClaimDate(claim.getClaimDate());
-                                claimDTO.setFinishDate(claim.getFinishDate());
-                                return claimDTO;
-                            })
-                            .collect(Collectors.toList()));
-
-                    Guild guild = guildRepository.findById(bounty.getGuild().getGuildID()).orElse(null);
-                    if (guild != null) {
-                        GuildDTO guildDTO = new GuildDTO();
-                        guildDTO.setGuildID(guild.getGuildID());
-                        guildDTO.setName(guild.getName());
-                        guildDTO.setDescription(guild.getDescription());
-                        guildDTO.setMembers(guild.getMembers());
-                        relationDTO.setGuildDTOS(List.of(guildDTO));
-                    }
-
-                    return relationDTO;
+        Optional<BountyClaim> bountyClaims = bountyClaimRepository.findById(bounty.getBountyID());
+        bountryRelationDTO.setBountyClaims(bountyClaims.stream()
+                .map(claim -> {
+                    BountyClaimDTO claimDTO = new BountyClaimDTO();
+                    claimDTO.setClaimID(claim.getClaimID());
+                    claimDTO.setClaimDate(claim.getClaimDate());
+                    claimDTO.setFinishDate(claim.getFinishDate());
+                    claimDTO.setPlayerID(claim.getPlayer().getId());
+                    claimDTO.setBountyID(claim.getBounty().getBountyID());
+                    return claimDTO;
                 })
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
+        Guild guild = guildRepository.findById(bounty.getGuild().getGuildID()).orElse(null);
+        if (guild != null) {
+            GuildDTO guildDTO = new GuildDTO();
+            guildDTO.setGuildID(guild.getGuildID());
+            guildDTO.setName(guild.getName());
+            guildDTO.setDescription(guild.getDescription());
+            guildDTO.setMembers(guild.getMembers());
+            bountryRelationDTO.setGuildDTOS(List.of(guildDTO));
+        }
+
+        return bountryRelationDTO;
     }
+
+
     public BountyDTO addBounty(BountyDTO bountyDTO) {
         Bounty bounty = new Bounty();
         bounty.setDescription(bountyDTO.getDescription());

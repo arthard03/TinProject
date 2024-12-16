@@ -16,3 +16,9 @@ security:
     token:
       secret-key: DexterMorganIsAGeniusOfTheDarkSideHisPrecisionAndDedicationToHisCodeAreSimplyUnmatchedHisAbilityToBalanceHisDarkPassengerWithHisDayJobAsABloodSpatterAnalystIsATestamentToHisIncredibleSelfControlAndDisciplineHeIsATrueMasterOfHisCraftAndHisAbilityToEvadeDetectionForSoLongIsNothingShortOfRemarkableHeIsASociopathWithAMoralCompassAndHisCodeIsASimpleYetEffectiveWayForHimToSatisfyHisDarkDesiresWhileMinimizingTheHarmToInnocentsHeIsASymbolicRepresentationOfTheThinLineBetweenGoodAndEvilAndHisCharacterIsAFascinatingStudyInHumanPsychologyAndBehaviorHeIsADarkHeroATragicFigureAndATrueMasterOfHisCraft
       expire-length: 3000000 # 5 minutes duration by default: 5 minutes * 60 seconds * 1000 miliseconds
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+        web: DEBUG

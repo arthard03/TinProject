@@ -30,29 +30,31 @@ public class GuildService {
                     return guildDTO;
                 }).collect(Collectors.toList());
     };
-    public  List<GuildRelationDTO> getAllRelations(){
-        return  StreamSupport.stream(guildRepository.findAll().spliterator(),false)
-                .map(guild -> {
-                    GuildRelationDTO guildRelationDTO=new GuildRelationDTO();
-                    guildRelationDTO.setGuildID(guild.getGuildID());
-                    guildRelationDTO.setName(guild.getName());
-                    guildRelationDTO.setDescription(guild.getDescription());
-                    guildRelationDTO.setMembers(guild.getMembers());
-                    List<BountyDTO> bountyDTOs = guild.getBounties().stream()
-                            .map(bounty -> {
-                                BountyDTO bountyDTO = new BountyDTO();
-                                bountyDTO.setBountyID(bounty.getBountyID());
-                                bountyDTO.setDescription(bounty.getDescription());
-                                bountyDTO.setDifficulty(bounty.getDifficulty());
-                                bountyDTO.setReward(bounty.getReward());
-                                bountyDTO.setStatus(bounty.getStatus());
-                                return bountyDTO;
-                            })
-                            .collect(Collectors.toList());
-                guildRelationDTO.setBounty(bountyDTOs);
-                return guildRelationDTO;
+    public GuildRelationDTO getRelations(Long id) {
+        Guild guild =guildRepository.findById(id).orElse(null);
+
+        GuildRelationDTO guildRelationDTO = new GuildRelationDTO();
+        guildRelationDTO.setGuildID(guild.getGuildID());
+        guildRelationDTO.setName(guild.getName());
+        guildRelationDTO.setDescription(guild.getDescription());
+        guildRelationDTO.setMembers(guild.getMembers());
+
+        List<BountyDTO> bountyDTOs = guild.getBounties().stream()
+                .map(bounty -> {
+                    BountyDTO bountyDTO = new BountyDTO();
+                    bountyDTO.setBountyID(bounty.getBountyID());
+                    bountyDTO.setDescription(bounty.getDescription());
+                    bountyDTO.setDifficulty(bounty.getDifficulty());
+                    bountyDTO.setReward(bounty.getReward());
+                    bountyDTO.setStatus(bounty.getStatus());
+                    bountyDTO.setGuildID(bounty.getGuild().getGuildID());
+                    return bountyDTO;
                 })
                 .collect(Collectors.toList());
+
+        guildRelationDTO.setBounty(bountyDTOs);
+
+        return guildRelationDTO;
     }
     public GuildDTO addGuild(GuildDTO guildDTO){
         Guild guild=new Guild();

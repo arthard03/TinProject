@@ -19,14 +19,14 @@ public class BountyController {
     public BountyController(BountyService bountyService) {
         this.bountyService = bountyService;
     };
-    @GetMapping
+    @GetMapping("/getAll")
     public ResponseEntity<List<BountyDTO>> getAllBounties() {
         List<BountyDTO> bountyDTOS = bountyService.getAllBounties();
         return  new ResponseEntity<>(bountyDTOS, HttpStatus.OK);
     };
-    @GetMapping("/relations")
-    public ResponseEntity<List<BountryRelationDTO>> getAllBountiesRelations(){
-       List<BountryRelationDTO> bountryRelationDTOS=bountyService.getAllBountyRelations();
+    @GetMapping("/relations/{id}")
+    public ResponseEntity<BountryRelationDTO>getAllBountiesRelations(@PathVariable Long id){
+       BountryRelationDTO bountryRelationDTOS=bountyService.getAllBountyRelations(id);
        return  new ResponseEntity<>(bountryRelationDTOS,HttpStatus.OK);
     };
     @PostMapping

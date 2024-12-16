@@ -22,15 +22,15 @@ public class PlayerController {
         this.playerService = playerService;
     }
 
-    @GetMapping
+    @GetMapping("/getAll")
     public ResponseEntity<List<PlayerDTO>> getAllPlayers() {
         List<PlayerDTO> players = playerService.getAllPlayers();
         return new ResponseEntity<>(players, HttpStatus.OK);
     }
 
-    @GetMapping("/relations")
-    public ResponseEntity<List<PlayerWithBountyClaimsDTO>> getPlayersWithBountyClaims() {
-        List<PlayerWithBountyClaimsDTO> players = playerService.getPlayersWithBountyClaims();
+    @GetMapping("/relations/{id}")
+    public ResponseEntity<PlayerWithBountyClaimsDTO> getPlayersWithBountyClaims(@PathVariable Long id) {
+        PlayerWithBountyClaimsDTO players = playerService.getPlayersWithBountyClaims(id);
         return new ResponseEntity<>(players, HttpStatus.OK);
     }
 

@@ -39,9 +39,8 @@ public class BountyClaimService {
                    return  bountyClaimDTO;
                 }).collect(Collectors.toList());
     };
-public  List<BountyClaimRelationDTO> getAllBountyClaimRealations(){
-    return StreamSupport.stream(bountyClaimRepository.findAll().spliterator(),false)
-            .map(bountyClaim -> {
+public  BountyClaimRelationDTO getAllBountyClaimRealations(Long id){
+    BountyClaim bountyClaim = bountyClaimRepository.findById(id).orElse(null);
                 BountyClaimRelationDTO bountyClaimDTO=new BountyClaimRelationDTO();
                 bountyClaimDTO.setClaimID(bountyClaim.getClaimID());
                 bountyClaimDTO.setClaimDate(bountyClaim.getClaimDate());
@@ -55,6 +54,7 @@ public  List<BountyClaimRelationDTO> getAllBountyClaimRealations(){
                             bountyDTO.setDescription(bounty1.getDescription());
                             bountyDTO.setStatus(bounty1.getStatus());
                             bountyDTO.setReward(bounty1.getReward());
+                            bountyDTO.setGuildID(bounty1.getGuild().getGuildID());
                             return bountyDTO;
                         }).collect(Collectors.toList()));
                 Player player=playerRepository.findById(bountyClaim.getPlayer().getId()).orElse(null);
@@ -68,9 +68,7 @@ public  List<BountyClaimRelationDTO> getAllBountyClaimRealations(){
                     bountyClaimDTO.setPlayerDTOS(List.of(playerDTO));
                 }
                 return  bountyClaimDTO;
-
-            }).collect(Collectors.toList());
-}
+            }
 //2023-11-26
 public  BountyClaimDTO addBountyClaim(BountyClaimDTO bountyClaimDTO) {
     BountyClaim bountyClaim = new BountyClaim();
