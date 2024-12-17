@@ -28,7 +28,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/guilds/getAll").permitAll()
-                        .requestMatchers("/guilds/relations/{id}").permitAll()
+                        .requestMatchers("/guilds/relations/{id}").hasRole("GUILDMASTER")
                         .requestMatchers("/players/relations/{id}").permitAll()
                         .requestMatchers("/players/getAll").permitAll()
                         .requestMatchers("/bounties/relations/{id}").permitAll()

@@ -16,6 +16,17 @@ public class User {
     @Column(nullable = false)
     @Size(min = 10)
     private String password;  // Removed 'static'
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role = Role.USER;
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     public User() {}
 
@@ -35,7 +46,7 @@ public class User {
         this.name = name;
     }
 
-    public String getPassword() {  // Removed 'static'
+    public String getPassword() { 
         return password;
     }
 

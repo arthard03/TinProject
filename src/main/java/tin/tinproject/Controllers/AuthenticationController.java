@@ -2,6 +2,7 @@ package tin.tinproject.Controllers;
 
 
 import tin.tinproject.Config.JwtUtil;
+import tin.tinproject.Model.Role;
 import tin.tinproject.Model.User;
 import tin.tinproject.Repository.UserRepository;
 import org.springframework.http.ResponseEntity;
@@ -36,15 +37,16 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
-        // Check if user already exists
         if (userRepository.findByName(user.getName()).isPresent()) {
             return ResponseEntity.badRequest().body("Username already exists");
         }
 
-        // Encode password
-        user.setPassword(passwordEncoder.encode(user.getPassword())); // Use instance method
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        // Save user
+        if (user.getRole() == null) {
+            user.setRole(Role.USER);
+        }
+
         userRepository.save(user);
 
         return ResponseEntity.ok("User registered successfully");
