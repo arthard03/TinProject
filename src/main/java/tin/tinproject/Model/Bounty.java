@@ -1,10 +1,8 @@
 package tin.tinproject.Model;
 
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Size;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 

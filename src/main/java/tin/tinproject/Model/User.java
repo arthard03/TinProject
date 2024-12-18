@@ -15,7 +15,7 @@ public class User {
 
     @Column(nullable = false)
     @Size(min = 10)
-    private String password;  // Removed 'static'
+    private String password;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role = Role.USER;
@@ -46,7 +46,7 @@ public class User {
         this.name = name;
     }
 
-    public String getPassword() { 
+    public String getPassword() {
         return password;
     }
 

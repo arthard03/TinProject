@@ -54,15 +54,13 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody User authenticationRequest) throws Exception {
-        // Authenticate user
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         authenticationRequest.getName(),
-                        authenticationRequest.getPassword() // Use instance method
+                        authenticationRequest.getPassword()
                 )
         );
 
-        // Generate JWT
         final UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         final String jwt = jwtUtil.generateToken(userDetails);
 
