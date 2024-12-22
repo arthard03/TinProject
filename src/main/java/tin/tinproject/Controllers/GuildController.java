@@ -1,5 +1,6 @@
 package tin.tinproject.Controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,12 +39,12 @@ public class GuildController {
 
 
     @PostMapping
-    public  ResponseEntity<GuildDTO> addGuild(@RequestBody GuildDTO guildDTO){
+    public  ResponseEntity<GuildDTO> addGuild(@Valid @RequestBody GuildDTO guildDTO){
     GuildDTO saveGuild = guildService.addGuild(guildDTO);
     return  new ResponseEntity<>(saveGuild,HttpStatus.OK);
     };
     @PutMapping("/{id}")
-    public  ResponseEntity<GuildDTO> editGuild(@PathVariable Long id,@RequestBody GuildDTO guildDTO){
+    public  ResponseEntity<GuildDTO> editGuild(@PathVariable Long id,@Valid @RequestBody GuildDTO guildDTO){
 GuildDTO updateGuild=guildService.editGuild(id,guildDTO);
 return new  ResponseEntity<>(updateGuild,HttpStatus.OK);
     };

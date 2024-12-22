@@ -1,6 +1,7 @@
 package tin.tinproject.Controllers;
 
 import jakarta.servlet.http.PushBuilder;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,12 +32,12 @@ public class BountyClaimController {
         return  new ResponseEntity<>(bountyClaimRelationDTOS,HttpStatus.OK);
     }
     @PostMapping
-    public ResponseEntity<BountyClaimDTO> addBountyClaim(@RequestBody BountyClaimDTO bountyClaimDTO){
+    public ResponseEntity<BountyClaimDTO> addBountyClaim(@Valid @RequestBody BountyClaimDTO bountyClaimDTO){
         BountyClaimDTO saveBountyClaim = bountyClaimService.addBountyClaim(bountyClaimDTO);
         return  new ResponseEntity<>(saveBountyClaim,HttpStatus.OK);
     }
     @PutMapping("/{id}")
-    public  ResponseEntity<BountyClaimDTO> editBountyClaim(@PathVariable Long id,@RequestBody BountyClaimDTO bountyClaimDTO){
+    public  ResponseEntity<BountyClaimDTO> editBountyClaim(@PathVariable Long id,@Valid @RequestBody BountyClaimDTO bountyClaimDTO){
         BountyClaimDTO bountyClaimDTO1=bountyClaimService.editBountyClaim(id,bountyClaimDTO);
         return  new ResponseEntity<>(bountyClaimDTO1,HttpStatus.OK);
     }

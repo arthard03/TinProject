@@ -1,6 +1,7 @@
 package tin.tinproject.Controllers;
 
 
+import jakarta.validation.Valid;
 import tin.tinproject.Config.JwtUtil;
 import tin.tinproject.Model.Role;
 import tin.tinproject.Model.User;
@@ -36,7 +37,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody User user) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody User user) {
         if (userRepository.findByName(user.getName()).isPresent()) {
             return ResponseEntity.badRequest().body("Username already exists");
         }
@@ -53,7 +54,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody User authenticationRequest) throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody User authenticationRequest) throws Exception {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         authenticationRequest.getName(),

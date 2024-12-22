@@ -1,5 +1,6 @@
 package tin.tinproject.Controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,12 +31,12 @@ public class BountyController {
        return  new ResponseEntity<>(bountryRelationDTOS,HttpStatus.OK);
     };
     @PostMapping
-    public  ResponseEntity<BountyDTO> addBounty(@RequestBody BountyDTO bountyDTO){
+    public  ResponseEntity<BountyDTO> addBounty(@Valid @RequestBody BountyDTO bountyDTO){
        BountyDTO updateBounty= bountyService.addBounty(bountyDTO);
        return  new ResponseEntity<>(updateBounty, HttpStatus.OK);
     };
     @PutMapping("/{id}")
-    public  ResponseEntity<BountyDTO> editBounty(@PathVariable Long id,@RequestBody BountyDTO bountyDTO) {
+    public  ResponseEntity<BountyDTO> editBounty(@PathVariable Long id,@Valid @RequestBody BountyDTO bountyDTO) {
         BountyDTO editBounty = bountyService.editBounty(id, bountyDTO);
         return new ResponseEntity<>(bountyDTO, HttpStatus.OK);
     };

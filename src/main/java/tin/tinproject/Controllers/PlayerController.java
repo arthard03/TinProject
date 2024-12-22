@@ -1,5 +1,6 @@
 package tin.tinproject.Controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,13 +36,13 @@ public class PlayerController {
     }
 
     @PostMapping
-    public ResponseEntity<PlayerDTO> addPlayer(@RequestBody PlayerDTO playerDTO) {
+    public ResponseEntity<PlayerDTO> addPlayer(@Valid @RequestBody PlayerDTO playerDTO) {
         PlayerDTO createdPlayer = playerService.addPlayer(playerDTO);
         return new ResponseEntity<>(createdPlayer, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PlayerDTO> editPlayer(@PathVariable Long id, @RequestBody PlayerDTO playerDTO) {
+    public ResponseEntity<PlayerDTO> editPlayer(@PathVariable Long id,@Valid @RequestBody PlayerDTO playerDTO) {
         PlayerDTO updatedPlayer = playerService.editPlayer(id, playerDTO);
         return new ResponseEntity<>(updatedPlayer, HttpStatus.OK);
     }
