@@ -1,5 +1,8 @@
 package tin.tinproject.Service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import tin.tinproject.DTO.BountyClaimDTO;
@@ -78,7 +81,20 @@ public class PlayerService {
         }
         return playerDTO;
     }
+    public Page<PlayerDTO> getAllPlayers(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Player> playerPage = (Page<Player>) playerRepository.findAll(pageable);
 
+        return playerPage.map(player -> {
+            PlayerDTO playerDTO = new PlayerDTO();
+            playerDTO.setId(player.getId());
+            playerDTO.setName(player.getName());
+            playerDTO.setClazz(player.getClazz());
+            playerDTO.setSpeciality(player.getSpeciality());
+            playerDTO.setPersuasionLevel(player.getPersuasionLevel());
+            return playerDTO;
+        });
+    }
     public void removePlayer(Long id) {
         playerRepository.deleteById(id);
     }

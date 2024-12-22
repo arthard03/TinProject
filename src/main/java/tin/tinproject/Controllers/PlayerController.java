@@ -2,6 +2,7 @@ package tin.tinproject.Controllers;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,10 +23,12 @@ public class PlayerController {
     public PlayerController(PlayerService playerService) {
         this.playerService = playerService;
     }
-
+//    http://localhost:8080/Tavern/players/getAll?page=2&size=2
     @GetMapping("/getAll")
-    public ResponseEntity<List<PlayerDTO>> getAllPlayers() {
-        List<PlayerDTO> players = playerService.getAllPlayers();
+    public ResponseEntity<Page<PlayerDTO>> getAllPlayers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "2") int size) {
+        Page<PlayerDTO> players = playerService.getAllPlayers(page, size);
         return new ResponseEntity<>(players, HttpStatus.OK);
     }
 
