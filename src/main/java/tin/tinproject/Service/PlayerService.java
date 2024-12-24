@@ -22,19 +22,19 @@ public class PlayerService {
     public PlayerService(PlayerRepository playerRepository) {
         this.playerRepository = playerRepository;
     }
+    public Page<PlayerDTO> getAllPlayers(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Player> playerPage = (Page<Player>) playerRepository.findAll(pageable);
 
-    public List<PlayerDTO> getAllPlayers() {
-        return StreamSupport.stream(playerRepository.findAll().spliterator(), false)
-                .map(player -> {
-                    PlayerDTO playerDTO = new PlayerDTO();
-                    playerDTO.setId(player.getId());
-                    playerDTO.setName(player.getName());
-                    playerDTO.setClazz(player.getClazz());
-                    playerDTO.setSpeciality(player.getSpeciality());
-                    playerDTO.setPersuasionLevel(player.getPersuasionLevel());
-                    return playerDTO;
-                })
-                .collect(Collectors.toList());
+        return playerPage.map(player -> {
+            PlayerDTO playerDTO = new PlayerDTO();
+            playerDTO.setId(player.getId());
+            playerDTO.setName(player.getName());
+            playerDTO.setClazz(player.getClazz());
+            playerDTO.setSpeciality(player.getSpeciality());
+            playerDTO.setPersuasionLevel(player.getPersuasionLevel());
+            return playerDTO;
+        });
     }
     public PlayerWithBountyClaimsDTO getPlayersWithBountyClaims(Long id) {
         Player player = playerRepository.findById(id).orElse(null);
@@ -81,20 +81,7 @@ public class PlayerService {
         }
         return playerDTO;
     }
-    public Page<PlayerDTO> getAllPlayers(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Player> playerPage = (Page<Player>) playerRepository.findAll(pageable);
 
-        return playerPage.map(player -> {
-            PlayerDTO playerDTO = new PlayerDTO();
-            playerDTO.setId(player.getId());
-            playerDTO.setName(player.getName());
-            playerDTO.setClazz(player.getClazz());
-            playerDTO.setSpeciality(player.getSpeciality());
-            playerDTO.setPersuasionLevel(player.getPersuasionLevel());
-            return playerDTO;
-        });
-    }
     public void removePlayer(Long id) {
         playerRepository.deleteById(id);
     }

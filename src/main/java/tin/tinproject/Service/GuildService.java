@@ -1,5 +1,9 @@
 package tin.tinproject.Service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import tin.tinproject.DTO.BountyDTO;
 import tin.tinproject.DTO.GuildDTO;
@@ -18,18 +22,20 @@ public class GuildService {
     public GuildService(GuildRepository guildRepository) {
         this.guildRepository = guildRepository;
     }
+    public Page<GuildDTO> getAllGuilds(int page,int size){
+        Pageable pageable= PageRequest.of(page,size);
+        Page<Guild> guildPage =(Page<Guild>) guildRepository.findAll(pageable);
+        return guildPage.map(guild -> {
+            GuildDTO guildDTO =new GuildDTO();
+            guildDTO.setGuildID(guild.getGuildID());
+            guildDTO.setName(guild.getName());
+            guildDTO.setDescription(guild.getDescription());
+            guildDTO.setMembers(guild.getMembers());
+            return guildDTO;
+        });
 
-    public List<GuildDTO> getAllGuilds(){
-        return StreamSupport.stream(guildRepository.findAll().spliterator(), false)
-                .map(guild -> {
-                    GuildDTO guildDTO =new GuildDTO();
-                    guildDTO.setGuildID(guild.getGuildID());
-                    guildDTO.setName(guild.getName());
-                    guildDTO.setDescription(guild.getDescription());
-                    guildDTO.setMembers(guild.getMembers());
-                    return guildDTO;
-                }).collect(Collectors.toList());
-    };
+
+    }
     public GuildRelationDTO getRelations(Long id) {
         Guild guild =guildRepository.findById(id).orElse(null);
 

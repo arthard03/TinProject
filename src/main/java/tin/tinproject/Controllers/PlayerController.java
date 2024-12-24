@@ -23,7 +23,7 @@ public class PlayerController {
     public PlayerController(PlayerService playerService) {
         this.playerService = playerService;
     }
-//    http://localhost:8080/Tavern/players/getAll?page=2&size=2
+    //    http://localhost:8080/Tavern/players/getAll?page=2&size=2
     @GetMapping("/getAll")
     public ResponseEntity<Page<PlayerDTO>> getAllPlayers(
             @RequestParam(defaultValue = "0") int page,

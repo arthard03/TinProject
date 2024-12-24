@@ -21,11 +21,11 @@ public class BountyClaim {
     @DateTimeFormat
     private Date finishDate;
 
-    @ManyToOne(cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "Player_ID", nullable = false)
     private Player player;
 
-    @ManyToOne(cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "Bounteis_bounty_ID", nullable = false)
     private Bounty bounty;
 

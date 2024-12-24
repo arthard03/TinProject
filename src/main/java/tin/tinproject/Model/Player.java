@@ -2,6 +2,8 @@ package tin.tinproject.Model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 import java.util.List;
@@ -20,7 +22,7 @@ public class Player {
     @Size(min = 5,max = 30)
     private String clazz;
     @Column(nullable = false)
-    @Size(min = 10,max = 30)
+    @Size(min = 5,max = 30)
     private String speciality;
     @Digits(integer = 10,fraction = 0)
     private Integer persuasionLevel;

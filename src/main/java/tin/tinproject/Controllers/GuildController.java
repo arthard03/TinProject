@@ -2,6 +2,7 @@ package tin.tinproject.Controllers;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,8 +22,10 @@ public class GuildController {
         this.guildService = guildService;
     };
  @GetMapping("/getAll")
-    public ResponseEntity<List<GuildDTO>> getAllGuilds(){
-        List<GuildDTO> guilds =guildService.getAllGuilds();
+    public ResponseEntity<Page<GuildDTO>> getAllGuilds(
+            @RequestParam(defaultValue ="0") int page,
+            @RequestParam(defaultValue ="2") int size){
+        Page<GuildDTO> guilds =guildService.getAllGuilds(page,size);
         return  new ResponseEntity<>(guilds, HttpStatus.OK);
 
     };
