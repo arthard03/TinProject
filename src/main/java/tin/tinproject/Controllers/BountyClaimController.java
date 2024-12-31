@@ -2,6 +2,7 @@ package tin.tinproject.Controllers;
 
 import jakarta.servlet.http.PushBuilder;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,8 +23,11 @@ public class BountyClaimController {
         this.bountyClaimService = bountyClaimService;
     }
     @GetMapping("/getAll")
-    public ResponseEntity<List<BountyClaimDTO>> getAllBountyClaim() {
-        List<BountyClaimDTO> bountyClaimDTOS = bountyClaimService.getAllBountyClaim();
+    public ResponseEntity<Page<BountyClaimDTO>> getAllBountyClaim(
+            @RequestParam(defaultValue ="0") int page,
+            @RequestParam(defaultValue ="2") int size
+    ) {
+        Page<BountyClaimDTO> bountyClaimDTOS = bountyClaimService.getAllBountyClaim(page,size);
         return  new ResponseEntity<>(bountyClaimDTOS, HttpStatus.OK);
     }
     @GetMapping("/relations/{id}")

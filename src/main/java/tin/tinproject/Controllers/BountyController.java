@@ -2,6 +2,7 @@ package tin.tinproject.Controllers;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,9 +22,11 @@ public class BountyController {
         this.bountyService = bountyService;
     };
     @GetMapping("/getAll")
-    public ResponseEntity<List<BountyDTO>> getAllBounties() {
-        List<BountyDTO> bountyDTOS = bountyService.getAllBounties();
-        return  new ResponseEntity<>(bountyDTOS, HttpStatus.OK);
+    public ResponseEntity<Page<BountyDTO>> getAllBounties(
+            @RequestParam(defaultValue ="0") int page,
+            @RequestParam(defaultValue ="2") int size){
+        Page<BountyDTO> bounties = bountyService.getAllBounties(page,size);
+        return  new ResponseEntity<>(bounties, HttpStatus.OK);
     };
     @GetMapping("/relations/{id}")
     public ResponseEntity<BountryRelationDTO>getAllBountiesRelations(@PathVariable Long id){

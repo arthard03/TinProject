@@ -1,6 +1,9 @@
 package tin.tinproject.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import tin.tinproject.DTO.BountryRelationDTO;
@@ -31,9 +34,10 @@ public class BountyService {
         this.guildRepository = guildRepository;
         this.bountyClaimRepository = bountyClaimRepository;
     }
-    public List<BountyDTO> getAllBounties(){
-        return StreamSupport.stream(bountyRepository.findAll().spliterator(),false)
-                .map(bounty -> {
+    public Page<BountyDTO> getAllBounties(int page, int size){
+        Pageable pageable= PageRequest.of(page,size);
+        Page<Bounty> bountyPage =(Page<Bounty>) bountyRepository.findAll(pageable);
+                return bountyPage.map(bounty -> {
                     BountyDTO bountyDTO=new BountyDTO();
                     bountyDTO.setBountyID(bounty.getBountyID());
                     bountyDTO.setReward(bounty.getReward());
@@ -41,8 +45,8 @@ public class BountyService {
                     bountyDTO.setDifficulty(bounty.getDifficulty());
                     bountyDTO.setDescription(bounty.getDescription());
                     return bountyDTO;
-                }).collect(Collectors.toList());
-    };
+                });
+};
     public BountryRelationDTO getAllBountyRelations(Long id) {
         Bounty bounty=bountyRepository.findById(id).orElse(null);
         BountryRelationDTO bountryRelationDTO =new BountryRelationDTO();

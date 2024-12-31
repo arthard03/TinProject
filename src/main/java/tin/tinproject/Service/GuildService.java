@@ -33,8 +33,6 @@ public class GuildService {
             guildDTO.setMembers(guild.getMembers());
             return guildDTO;
         });
-
-
     }
     public GuildRelationDTO getRelations(Long id) {
         Guild guild =guildRepository.findById(id).orElse(null);

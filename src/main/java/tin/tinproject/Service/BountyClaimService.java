@@ -1,6 +1,9 @@
 package tin.tinproject.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import tin.tinproject.DTO.*;
 import tin.tinproject.Model.Bounty;
@@ -13,7 +16,6 @@ import tin.tinproject.Repository.PlayerRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 public class BountyClaimService {
@@ -27,18 +29,19 @@ public class BountyClaimService {
         this.bountyRepository = bountyRepository;
         this.playerRepository = playerRepository;
     }
-    public List<BountyClaimDTO> getAllBountyClaim(){
-        return StreamSupport.stream(bountyClaimRepository.findAll().spliterator(),false)
-                .map(bountyClaim -> {
-                   BountyClaimDTO bountyClaimDTO=new BountyClaimDTO();
+    public Page<BountyClaimDTO> getAllBountyClaim(int page,int size){
+        Pageable pageable= PageRequest.of(page,size);
+        Page<BountyClaim> bountyClaimPage =(Page<BountyClaim>)  bountyClaimRepository.findAll(pageable);
+return bountyClaimPage.map(bountyClaim -> {
+        BountyClaimDTO bountyClaimDTO=new BountyClaimDTO();
                    bountyClaimDTO.setClaimID(bountyClaim.getClaimID());
                    bountyClaimDTO.setClaimDate(bountyClaim.getClaimDate());
                    bountyClaimDTO.setFinishDate(bountyClaim.getFinishDate());
                    bountyClaimDTO.setPlayerID(bountyClaim.getPlayer().getId());
                    bountyClaimDTO.setBountyID(bountyClaim.getBounty().getBountyID());
                    return  bountyClaimDTO;
-                }).collect(Collectors.toList());
-    };
+});
+};
 public  BountyClaimRelationDTO getAllBountyClaimRealations(Long id){
     BountyClaim bountyClaim = bountyClaimRepository.findById(id).orElse(null);
                 BountyClaimRelationDTO bountyClaimDTO=new BountyClaimRelationDTO();
