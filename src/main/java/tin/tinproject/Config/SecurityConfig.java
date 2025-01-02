@@ -1,5 +1,6 @@
 package tin.tinproject.Config;
 
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,6 +31,7 @@ public class SecurityConfig {
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()));
         http
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource))
@@ -38,11 +40,12 @@ public class SecurityConfig {
                         .requestMatchers("/guilds/getAll").permitAll()
                         .requestMatchers("/guilds/relations/{id}").hasRole("GUILDMASTER")
                         .requestMatchers("/players/relations/{id}").hasRole("ADMIN")
-                        .requestMatchers("/players/getAll").permitAll()
-                        .requestMatchers("/bounties/relations/{id}").permitAll()
+                        .requestMatchers("/players/getAll").permitAll().requestMatchers("/bounties/relations/{id}").permitAll()
                         .requestMatchers("/bounties/getAll").permitAll()
                         .requestMatchers("/bountiesClaim/relations/{id}").permitAll()
                         .requestMatchers("/bountiesClaim/getAll").permitAll()
+                        .requestMatchers(PathRequest.toH2Console()).permitAll()
+                        .requestMatchers(("/h2/**")).permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

@@ -28,7 +28,7 @@ public class Bounty {
     @Size(min = 4, max = 20)
     private String difficulty;
 
-    @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "Guild_guild_ID", nullable = false)
     private Guild guild;
 
