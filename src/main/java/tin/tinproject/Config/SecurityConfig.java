@@ -38,11 +38,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/guilds/getAll").permitAll()
-                        .requestMatchers("/guilds/relations/{id}").hasRole("GUILDMASTER")
-                        .requestMatchers("/players/relations/{id}").hasRole("ADMIN")
-                        .requestMatchers("/players/getAll").permitAll().requestMatchers("/bounties/relations/{id}").permitAll()
+                        .requestMatchers("/players/").hasRole("USER")
+                        .requestMatchers("/players/getAll").permitAll()
                         .requestMatchers("/bounties/getAll").permitAll()
-                        .requestMatchers("/bountiesClaim/relations/{id}").permitAll()
                         .requestMatchers("/bountiesClaim/getAll").permitAll()
                         .requestMatchers(PathRequest.toH2Console()).permitAll()
                         .requestMatchers(("/h2/**")).permitAll()
