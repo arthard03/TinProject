@@ -36,12 +36,20 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .authorizeHttpRequests(requests -> requests
+                        .requestMatchers(
+                                "/auth/**",
+                                "/players/getAll",
+                                "/bounties/getAll",
+                                "/bountiesClaim/getAll",
+                                "/guilds/getAll"
+                        ).permitAll()
+                        .requestMatchers(
+                                "/guilds/**",
+                                "/bounties/**",
+                                "/bountiesClaim/**"
+                        ).hasRole("ADMIN")
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/guilds/getAll").permitAll()
                         .requestMatchers("/players/").hasRole("USER")
-                        .requestMatchers("/players/getAll").permitAll()
-                        .requestMatchers("/bounties/getAll").permitAll()
-                        .requestMatchers("/bountiesClaim/getAll").permitAll()
                         .requestMatchers(PathRequest.toH2Console()).permitAll()
                         .requestMatchers(("/h2/**")).permitAll()
                         .anyRequest().authenticated()
