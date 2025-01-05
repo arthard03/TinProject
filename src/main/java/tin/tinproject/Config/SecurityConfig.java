@@ -46,7 +46,8 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/guilds/**",
                                 "/bounties/**",
-                                "/bountiesClaim/**"
+                                "/bountiesClaim/**",
+                                "/users/**"
                         ).hasRole("ADMIN")
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/players/").hasRole("USER")
