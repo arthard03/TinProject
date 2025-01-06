@@ -19,7 +19,7 @@ public class JwtUtil {
     @Value("${security.jwt.token.secret-key}")
     private String SECRET_KEY;
 
-    @Value("${security.jwt.token.expire-length:3600000}")
+    @Value("${security.jwt.token.expire-length}")
     private long EXPIRATION_TIME;
 
     public String generateToken(UserDetails userDetails) {

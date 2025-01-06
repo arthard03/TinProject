@@ -15,10 +15,8 @@ public class BountyClaim {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long claimID;
     @Column(nullable = false)
-    @DateTimeFormat
     private Date claimDate;
     @Column(nullable = false)
-    @DateTimeFormat
     private Date finishDate;
 
     @ManyToOne(fetch = FetchType.EAGER)

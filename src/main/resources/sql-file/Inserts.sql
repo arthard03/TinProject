@@ -17,8 +17,8 @@ INSERT INTO Bounties (description, difficulty, reward, status, guild_guild_id) V
 ('Protect the caravan from bandits', 'Easy', 250.00, 1, 4),
 ('Retrieve the Dragonstone from the Dwemer ruins', 'Legendary', 5000.00, 0, 5);
 INSERT INTO Bounty_claim (claim_date, finish_date, bounteis_bounty_id, player_id) VALUES
-('2023-11-23 10:30:00', '2023-11-25 15:00:00', 1, 1),
-('2023-12-01 12:00:00', '2023-12-05 18:00:00', 2, 2),
-('2023-12-10 09:00:00', '2023-12-18 17:00:00', 3, 3),
-('2023-11-28 14:00:00', '2023-11-30 16:30:00', 4, 4),
-('2023-12-03 11:30:00', '2023-12-12 20:00:00', 5, 5);
+('2023-11-23', '2023-11-25', 1, 1),
+('2023-12-01', '2023-12-05', 2, 2),
+('2023-12-10', '2023-12-18', 3, 3),
+('2023-11-28', '2023-11-30', 4, 4),
+('2023-12-03', '2023-12-12', 5, 5);
