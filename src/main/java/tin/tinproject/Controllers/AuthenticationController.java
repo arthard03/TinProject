@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
@@ -65,6 +68,13 @@ public class AuthenticationController {
         final UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         final String jwt = jwtUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(jwt);
+        Map<String, String> response = new HashMap<>();
+        response.put("token", jwt);
+        response.put("role", userDetails.getAuthorities().stream()
+                .findFirst()
+                .map(authority -> authority.getAuthority().replace("ROLE_", ""))
+                .orElse("USER"));
+
+        return ResponseEntity.ok(response);
     }
 }

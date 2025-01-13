@@ -9,6 +9,7 @@ import tin.tinproject.DTO.BountyClaimDTO;
 import tin.tinproject.DTO.PlayerDTO;
 import tin.tinproject.DTO.PlayerWithBountyClaimsDTO;
 import tin.tinproject.Model.Player;
+import tin.tinproject.Model.Role;
 import tin.tinproject.Repository.PlayerRepository;
 
 import java.util.List;
@@ -70,19 +71,31 @@ public class PlayerService {
         return playerDTO;
     }
 
-    public PlayerDTO editPlayer(Long id, PlayerDTO playerDTO) {
+    public PlayerDTO editPlayer(Long id, PlayerDTO playerDTO, Long userId, Role userRole) {
         Player player = playerRepository.findById(id).orElse(null);
-        if (player != null) {
-            player.setName(playerDTO.getName());
-            player.setClazz(playerDTO.getClazz());
-            player.setSpeciality(playerDTO.getSpeciality());
-            player.setPersuasionLevel(playerDTO.getPersuasionLevel());
-            playerRepository.save(player);
+        if (player == null) {
+            throw new IllegalArgumentException("Player not found");
         }
+        if (!player.getUser().getId_user().equals(userId) && userRole != Role.ADMIN) {
+            throw new SecurityException("You do not have permission to edit this player");
+        }
+        player.setName(playerDTO.getName());
+        player.setClazz(playerDTO.getClazz());
+        player.setSpeciality(playerDTO.getSpeciality());
+        player.setPersuasionLevel(playerDTO.getPersuasionLevel());
+        playerRepository.save(player);
+
         return playerDTO;
     }
 
-    public void removePlayer(Long id) {
+    public void removePlayer(Long id,Long userId, Role userRole) {
+        Player player = playerRepository.findById(id).orElse(null);
+        if (player == null) {
+            throw new IllegalArgumentException("Player not found");
+        }
+        if (!player.getUser().getId_user().equals(userId) && userRole != Role.ADMIN) {
+            throw new SecurityException("You do not have permission to edit this player");
+        }
         playerRepository.deleteById(id);
     }
 }
