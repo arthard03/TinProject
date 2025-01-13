@@ -37,6 +37,21 @@ public class PlayerService {
             return playerDTO;
         });
     }
+    public Page<PlayerDTO> getAllUserPlayers(int page, int size,String username) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Player> playerPage = playerRepository.findAllByUserName(username,pageable);
+
+
+        return playerPage.map(player -> {
+            PlayerDTO playerDTO = new PlayerDTO();
+            playerDTO.setId(player.getId());
+            playerDTO.setName(player.getName());
+            playerDTO.setClazz(player.getClazz());
+            playerDTO.setSpeciality(player.getSpeciality());
+            playerDTO.setPersuasionLevel(player.getPersuasionLevel());
+            return playerDTO;
+        });
+    }
     public PlayerWithBountyClaimsDTO getPlayersWithBountyClaims(Long id) {
         Player player = playerRepository.findById(id).orElse(null);
         PlayerWithBountyClaimsDTO playerWithBountyClaimsDTO = new PlayerWithBountyClaimsDTO();

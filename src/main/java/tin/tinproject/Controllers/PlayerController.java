@@ -38,6 +38,16 @@ private  final UserRepository userRepository;
         Page<PlayerDTO> players = playerService.getAllPlayers(page, size);
         return new ResponseEntity<>(players, HttpStatus.OK);
     }
+    @GetMapping("/getAllUser")
+    public ResponseEntity<Page<PlayerDTO>> getAllUsersPlayers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "2") int size) {
+        Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        Page<PlayerDTO> players = playerService.getAllUserPlayers(page, size,userDetails.getUsername());
+        return new ResponseEntity<>(players, HttpStatus.OK);
+    }
 
     @GetMapping("/relations/{id}")
     public ResponseEntity<PlayerWithBountyClaimsDTO> getPlayersWithBountyClaims(@PathVariable Long id) {
